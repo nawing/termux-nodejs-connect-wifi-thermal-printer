@@ -36,12 +36,16 @@ async function detectPrinterIP() {
 function generateQRCodeCommand(qrString) {
   if (!qrString || typeof qrString !== 'string') return '';
   const GS = '\x1D';
+
   const storeLen = qrString.length + 3;
   const pL = storeLen % 256;
   const pH = Math.floor(storeLen / 256);
+
   return (
-    GS + '(k' + String.fromCharCode(pL, pH) + '\x31\x50\x30' + qrString +
-    GS + '(k\x03\x00\x31\x51\x30'
+    GS + '(k' + '\x03\x00' + '\x31' + '\x43' + '\x06' + // Set module size (1 to 16; try 6 for larger QR)
+    GS + '(k' + '\x03\x00' + '\x31' + '\x45' + '\x30' + // Set error correction level (48 = L)
+    GS + '(k' + String.fromCharCode(pL, pH) + '\x31\x50\x30' + qrString + // Store data
+    GS + '(k' + '\x03\x00' + '\x31\x51\x30'             // Print QR code
   );
 }
 /**
@@ -64,16 +68,14 @@ function sendToPrinter(ip, body) {
       client.end();
       resolve();
     });
+    client.on('timeout', () => {
+      client.destroy();
+      reject(new Error('Printer connection timed out.'));
+    });
+
     client.on('error', err => {
       reject(new Error(`Printer connection failed: ${err.message}`));
     });
-  });
-}
-
-function playNotificationSound() {
-  player.play('notify.wav', (err) => {
-    console.log(err)
-    if (err) console.error('🔇 Failed to play sound:', err.message);
   });
 }
 
