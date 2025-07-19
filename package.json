@@ -1,0 +1,17 @@
+{
+  "name": "termux-wifi-printer-connect",
+  "version": "689.689.689",
+  "private": true,
+  "scripts": {
+    "start": "node local.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "child_process": "^1.0.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "net": "^1.0.2",
+    "util": "^0.12.5",
+    "ws": "^8.18.3"
+  }
+}
