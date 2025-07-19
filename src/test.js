@@ -19,10 +19,10 @@ async function detectPrinterIP() {
 // 🧾 Generate order text (no prices)
 function generatePrintText(order) {
   let output = '';
-  output += `📦 ORDER ID: ${order.orderId}\n`;
+  output += `ORDER ID: ${order.orderId}\n`;
   output += '-----------------------------\n';
   order.items.forEach(item => {
-    output += `• ${item.name} x${item.qty}\n`;
+    output += `${item.name} x${item.qty}\n`;
   });
   output += '-----------------------------\n\n';
   return output;
@@ -73,7 +73,9 @@ start = async () => {
       orderId: 'INV-999',
       items: [
         { name: 'Dry Food', qty: 3 },
-        { name: 'Collar', qty: 1 }
+        { name: 'Collar', qty: 1 },
+        { name: 'Bones', qty: 1 },
+        { name: 'Balls', qty: 3 },
       ],
       qrString: 'https://track.example.com/INV-999'
     });
