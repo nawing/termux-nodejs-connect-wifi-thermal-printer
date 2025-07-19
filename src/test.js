@@ -72,10 +72,10 @@ start = async () => {
     await sendToPrinter(ip, {
       orderId: 'INV-999',
       items: [
-        { name: 'Dry Food', qty: 3 },
-        { name: 'Collar', qty: 1 },
-        { name: 'Bones', qty: 1 },
-        { name: 'Balls', qty: 3 },
+        { name: 'ရေညိကော်ပြန့်လိပ်', qty: 3 },
+        { name: 'ပုဇွန်ကော်ပြန့်လိပ်', qty: 1 },
+        { name: 'ရိုးရိုးပလာသာ', qty: 1 },
+        { name: 'ကော်ပြန့်ရွက်', qty: 3 },
       ],
       qrString: 'https://track.example.com/INV-999'
     });
