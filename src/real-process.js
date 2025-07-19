@@ -2,7 +2,6 @@ const WebSocket = require('ws');
 const net = require('net');
 const { exec } = require('child_process');
 const util = require('util');
-const player = require('play-sound')();
 const execAsync = util.promisify(exec);
 const WS_SERVER = 'ws://api.myanmarhoneyfood.com:6680';
 // const WS_SERVER = 'ws://localhost:6680';
