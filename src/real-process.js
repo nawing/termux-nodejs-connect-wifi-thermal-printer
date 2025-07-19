@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 const net = require('net');
 const { exec } = require('child_process');
 const util = require('util');
+const player = require('play-sound')();
 const execAsync = util.promisify(exec);
 const WS_SERVER = 'ws://api.myanmarhoneyfood.com:6680';
 // const WS_SERVER = 'ws://localhost:6680';
@@ -69,6 +70,13 @@ function sendToPrinter(ip, body) {
   });
 }
 
+function playNotificationSound() {
+  player.play('notify.wav', (err) => {
+    console.log(err)
+    if (err) console.error('🔇 Failed to play sound:', err.message);
+  });
+}
+
 function connect() {
   ws = new WebSocket(WS_SERVER);
   ws.on('open', async () => {
@@ -83,6 +91,7 @@ function connect() {
   });
 
   ws.on('message', async data => {
+
     if (!detectedPrinterIP) {
       console.error('❌ No printer IP detected. Cannot print.');
       return;
