@@ -35,11 +35,9 @@ async function detectPrinterIP() {
 function generateQRCodeCommand(qrString) {
   if (!qrString || typeof qrString !== 'string') return '';
   const GS = '\x1D';
-
   const storeLen = qrString.length + 3;
   const pL = storeLen % 256;
   const pH = Math.floor(storeLen / 256);
-
   return (
     GS + '(k' + '\x03\x00' + '\x31' + '\x43' + '\x06' + // Set module size (1 to 16; try 6 for larger QR)
     GS + '(k' + '\x03\x00' + '\x31' + '\x45' + '\x30' + // Set error correction level (48 = L)
@@ -79,7 +77,9 @@ function sendToPrinter(ip, body) {
 }
 
 try {
-  detectedPrinterIP = await detectPrinterIP();
+  detectPrinterIP().then((ipAddress) => {
+    detectedPrinterIP = ipAddress;
+  });
 } catch (err) {
   console.error('⚠️ Cannot detect printer IP now. Will retry on reconnect.');
   detectedPrinterIP = null;
@@ -87,6 +87,7 @@ try {
 
 function connect() {
   ws = new WebSocket(WS_SERVER);
+
   ws.on('open', async () => {
     console.log('🌐 Connected to print job server');
     reconnectInterval = 1000; // reset backoff after successful connect

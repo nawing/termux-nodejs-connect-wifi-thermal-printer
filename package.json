@@ -1,6 +1,6 @@
 {
   "name": "termux-wifi-printer-connect",
-  "version": "689.689.689",
+  "version": "1818",
   "private": true,
   "scripts": {
     "start": "node local.js"
