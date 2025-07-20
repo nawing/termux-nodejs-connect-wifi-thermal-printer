@@ -78,26 +78,25 @@ function sendToPrinter(ip, body) {
   });
 }
 
+try {
+  detectedPrinterIP = await detectPrinterIP();
+} catch (err) {
+  console.error('⚠️ Cannot detect printer IP now. Will retry on reconnect.');
+  detectedPrinterIP = null;
+}
+
 function connect() {
   ws = new WebSocket(WS_SERVER);
   ws.on('open', async () => {
     console.log('🌐 Connected to print job server');
-    try {
-      detectedPrinterIP = await detectPrinterIP();
-    } catch (err) {
-      console.error('⚠️ Cannot detect printer IP now. Will retry on reconnect.');
-      detectedPrinterIP = null;
-    }
     reconnectInterval = 1000; // reset backoff after successful connect
   });
 
   ws.on('message', async data => {
-
     if (!detectedPrinterIP) {
       console.error('❌ No printer IP detected. Cannot print.');
       return;
     }
-
     try {
       const body = JSON.parse(data);
       console.log('🖨 Received print job:', body);
@@ -115,6 +114,7 @@ function connect() {
 
   ws.on('error', (err) => {
     console.error('⚠️ WebSocket error:', err.message);
+    ws.close();
   });
 }
 
