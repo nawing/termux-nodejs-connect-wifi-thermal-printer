@@ -1,17 +1,13 @@
-# Make Your Android Device a socket listener or a local server to connect to thermal printer
-
-Created this repo for testing so that I can clone without getting blocked.
-LOL
-
-It attemps auto detect thermal printer ip with nmap - termux & wifi thermal printer connect
+# Make Your Android Device a daemon or a local server that connects to thermal printer
 
 
+It attemps auto detect thermal printer ip with nmap - termux & wifi thermal printer connect.
+So nmap needs to be installed
 ```bash
 # Install nmap on your termux first
 # Works well with nodejs version 22
 pkg install nmap
 ```
-
 
 
 
@@ -30,11 +26,11 @@ termux-wake-unlock
 
 
 
-
-
 ### 2. Run Node.js as an HTTP Server to listen input from your other applications to trigger local connection to print to wifi thermal printer
 
 View your connection status and control connections from http://localhost:3000
+or just run 'npm start'
+You can edit the web socket url and printer IP address
 
 ```bash
 # Install nmap on your termux first
