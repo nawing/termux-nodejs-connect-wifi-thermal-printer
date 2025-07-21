@@ -17,11 +17,16 @@ This allows you to print your thermal printer from anywhere with internet connec
 3. Install pm2
 
 ```bash
-# Install nmap on your termux first
+# In your termux
 # Works well with nodejs version 22
 pkg install nodejs-lts
 pkg install nmap
 npm install -g pm2
+
+termux-wake-lock
+# Make Termux not sleep becasue your android might try to kill the process
+termux-wake-unlock
+# Make Termux not sleep becasue your android might try to kill the process to save battery or other performance optimization
 ```
 
 
@@ -34,11 +39,6 @@ npm install
 # Install nmap on your termux first
 # Works well with nodejs version 22
 pm2 start ./src/process.js
-#
-termux-wake-lock
-# Make Termux not sleep becasue your android might try to kill the process
-termux-wake-unlock
-# Make Termux not sleep becasue your android might try to kill the process to save battery or other performance optimization
 ```
 
 
@@ -55,9 +55,5 @@ npm install
 # Install nmap on your termux first
 # Works well with nodejs version 22
 pm2 start ./src/server.js
-termux-wake-lock
-# Make Termux not sleep becasue your android might try to kill the process
-termux-wake-unlock
-# Make Termux not sleep becasue your android might try to kill the process to save battery or other performance optimization
 ```
 
