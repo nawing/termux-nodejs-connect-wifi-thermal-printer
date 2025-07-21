@@ -3,12 +3,14 @@
   "version": "1818",
   "private": true,
   "scripts": {
-    "start": "node local.js"
+    "start": "node ./src/server.js"
   },
   "dependencies": {
     "body-parser": "^2.2.0",
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
+    "escpos": "^3.0.0-alpha.6",
+    "escpos-network": "^3.0.0-alpha.5",
     "express": "^5.1.0",
     "net": "^1.0.2",
     "play-sound": "^1.1.6",

@@ -3,11 +3,10 @@ const net = require('net');
 const { exec } = require('child_process');
 const util = require('util');
 const execAsync = util.promisify(exec);
-const WS_SERVER = 'wss://your-public-server:8080'; // Your WebSocket server URL
+const WS_SERVER = 'ws://api.myanmarhoneyfood.com:6680';
+// const WS_SERVER = 'ws://localhost:6680';
 const PRINTER_PORT = 9100;
 const NETWORK_SUBNET = '192.168.1.0/24'; // Your local network range for nmap
-
-
 
 let ws;
 let reconnectInterval = 1000; // start 1 sec
@@ -40,8 +39,10 @@ function generateQRCodeCommand(qrString) {
   const pL = storeLen % 256;
   const pH = Math.floor(storeLen / 256);
   return (
-    GS + '(k' + String.fromCharCode(pL, pH) + '\x31\x50\x30' + qrString +
-    GS + '(k\x03\x00\x31\x51\x30'
+    GS + '(k' + '\x03\x00' + '\x31' + '\x43' + '\x06' + // Set module size (1 to 16; try 6 for larger QR)
+    GS + '(k' + '\x03\x00' + '\x31' + '\x45' + '\x30' + // Set error correction level (48 = L)
+    GS + '(k' + String.fromCharCode(pL, pH) + '\x31\x50\x30' + qrString + // Store data
+    GS + '(k' + '\x03\x00' + '\x31\x51\x30'             // Print QR code
   );
 }
 /**
@@ -64,22 +65,31 @@ function sendToPrinter(ip, body) {
       client.end();
       resolve();
     });
+    client.on('timeout', () => {
+      client.destroy();
+      reject(new Error('Printer connection timed out.'));
+    });
+
     client.on('error', err => {
       reject(new Error(`Printer connection failed: ${err.message}`));
     });
   });
 }
 
+try {
+  detectPrinterIP().then((ipAddress) => {
+    detectedPrinterIP = ipAddress;
+  });
+} catch (err) {
+  console.error('⚠️ Cannot detect printer IP now. Will retry on reconnect.');
+  detectedPrinterIP = null;
+}
+
 function connect() {
   ws = new WebSocket(WS_SERVER);
+
   ws.on('open', async () => {
     console.log('🌐 Connected to print job server');
-    try {
-      detectedPrinterIP = await detectPrinterIP();
-    } catch (err) {
-      console.error('⚠️ Cannot detect printer IP now. Will retry on reconnect.');
-      detectedPrinterIP = null;
-    }
     reconnectInterval = 1000; // reset backoff after successful connect
   });
 
@@ -88,7 +98,6 @@ function connect() {
       console.error('❌ No printer IP detected. Cannot print.');
       return;
     }
-
     try {
       const body = JSON.parse(data);
       console.log('🖨 Received print job:', body);
@@ -106,6 +115,7 @@ function connect() {
 
   ws.on('error', (err) => {
     console.error('⚠️ WebSocket error:', err.message);
+    ws.close();
   });
 }
 
