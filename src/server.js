@@ -16,7 +16,7 @@ const app = express();
 const port = 3000;
 
 let config = {
-  printerIp: '192.168.100.50',
+  printerIp: '192.168.100.125',
   wsUrl: 'ws://api.myanmarhoneyfood.com:6680',
 };
 
@@ -56,12 +56,13 @@ app.get('/', (req, res) => {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
-    <body class="container py-5">
+    <body class="container-fluid py-5">
     <div class="row">
       <div class="col-md-12">
         <h3>Printer Configuration</h3>
       </div>
-      <div class="col-lg-6">
+
+      <div class="col-lg-4">
         <div class="card mb-3">
           <div class="card-body">
             <form method="POST" action="/update" class="mb-3">
@@ -79,7 +80,7 @@ app.get('/', (req, res) => {
         </div>
       </div>
 
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="card mb-3">
           <div class="card-body">
             <table class="table">
@@ -100,6 +101,25 @@ app.get('/', (req, res) => {
           </div>
         </div>
       </div>
+
+      <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <form method="POST" action="/test" class="mb-3">
+              <div class="mb-3">
+                <label class="form-label"> QR Code </label>
+                <input type="text" class="form-control" name="qrString" value="Testing QR Code">
+              </div>
+              <div class="mb-3">
+                <label class="form-label"> Print Text </label>
+                <textarea rows="5" type="text" class="form-control" name="testText" value="This is a printing test"> </textarea>
+              </div>
+              <button type="submit" class="btn btn-primary"> Test Print </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     </body>
@@ -117,6 +137,12 @@ app.post('/update', (req, res) => {
   res.redirect('/');
 });
 
+
+app.post('/test', async (req, res) => {
+  const { qrString, testText } = req.body;
+  await printTextAndQR(qrString, testText);
+  res.redirect('/');
+});
 
 // Print function
 async function printTextAndQR(qrString, text) {
