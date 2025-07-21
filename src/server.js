@@ -20,6 +20,9 @@ let config = {
   wsUrl: 'ws://api.myanmarhoneyfood.com:6680',
 };
 
+let wsClient = null;
+let wsConnected = false;
+let printerConnected = false;
 
 async function detectPrinterIP() {
   console.log('🔍 Scanning for printer on network...');
@@ -28,16 +31,16 @@ async function detectPrinterIP() {
     const match = stdout.match(/Host: ([\d.]+).*Ports: 9100\/open/);
     if (!match) throw new Error('No printer found on the network.');
     console.log(`✅ Printer detected at IP: ${match[1]}`);
+    printerConnected = true;
     return match[1];
   } catch (err) {
     console.error('❌ Printer detection failed:', err.message);
+    printerConnected = false;
     // throw err;
   }
 }
 
-let wsClient = null;
-let wsConnected = false;
-let printerConnected = false;
+
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));

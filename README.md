@@ -25,13 +25,13 @@ npm install -g pm2
 
 termux-wake-lock
 # Make Termux not sleep becasue your android might try to kill the process
-termux-wake-unlock
+termux-wake-unlock0
 # Make Termux not sleep becasue your android might try to kill the process to save battery or other performance optimization
 ```
 
 
 ## 2 Methods available
-### 1. Run as a daemon
+### 1. Run as a daemon process
 ```bash
 # install depenencies
 npm install
