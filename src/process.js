@@ -3,8 +3,7 @@ const net = require('net');
 const { exec } = require('child_process');
 const util = require('util');
 const execAsync = util.promisify(exec);
-const WS_SERVER = 'ws://api.myanmarhoneyfood.com:6680';
-// const WS_SERVER = 'ws://localhost:6680';
+const WS_SERVER = 'ws://api.myanmarhoneyfood.com:6680';  // <<< EDIT YOUR CODE HERE
 const PRINTER_PORT = 9100;
 const NETWORK_SUBNET = '192.168.1.0/24'; // Your local network range for nmap
 
