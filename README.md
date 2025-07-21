@@ -1,7 +1,11 @@
-# Make Your Android Device a daemon or a local server that connects to thermal printer
-
+# Make Your Android Device a daemon or a local server that connects to thermal printer which listens input from your cloud applications realtime.
 
 It attemps auto detect thermal printer ip with nmap - termux & wifi thermal printer connect.
+It connects to cloud servers with web sockets listens input events and prints on your local printer.
+Please note that since this is just a template, security logics is not properly implemented.
+This is a way to connect your thermal printer from your web applications.
+This allows you to print your thermal printer to be printed from anywhere with internet connection.
+
 So nmap needs to be installed
 ```bash
 # Install nmap on your termux first
