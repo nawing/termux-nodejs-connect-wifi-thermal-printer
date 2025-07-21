@@ -30,21 +30,18 @@ termux-wake-unlock
 ```
 
 
-## 2 Methods avaiable
-### 1. Run Node.js daemon to listen input from socket to print to wifi thermal printer
-
+## 2 Methods available
+### 1. Run as a daemon
 ```bash
 # install depenencies
 npm install
-# Install nmap on your termux first
-# Works well with nodejs version 22
+# Run with pm2
 pm2 start ./src/process.js
 ```
 
 
 
-### 2. Run Node.js as an HTTP Server to listen input from your other applications to trigger local connection to print to wifi thermal printer
-
+### 2. Run Node.js as an HTTP Server
 View your connection status and control connections from http://localhost:3000
 or just run 'npm start'
 You can edit the web socket url and printer IP address
@@ -52,8 +49,7 @@ You can edit the web socket url and printer IP address
 ```bash
 # install depenencies
 npm install
-# Install nmap on your termux first
-# Works well with nodejs version 22
+# Run with pm2
 pm2 start ./src/server.js
 ```
 
