@@ -162,11 +162,13 @@ function restartWebSocket() {
   wsClient.on('close', () => {
     console.log('❌ WebSocket disconnected.');
     wsConnected = false;
-    setTimeout(restartWebSocket, 5000);
+    restartWebSocket();
+    // setTimeout(restartWebSocket, 5000);
   });
   wsClient.on('error', err => {
     console.log('⚠️ WebSocket error:', err.message);
     wsConnected = false;
+    restartWebSocket();
   });
 }
 
