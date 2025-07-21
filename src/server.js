@@ -10,6 +10,7 @@ const { exec } = require('child_process');
 const util = require('util');
 const execAsync = util.promisify(exec);
 const PRINTER_PORT = 9100;
+const NETWORK_SUBNET = '192.168.1.0/24'; // Your local network range for nmap
 
 const app = express();
 const port = 3000;
