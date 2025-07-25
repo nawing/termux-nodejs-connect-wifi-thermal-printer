@@ -17,7 +17,8 @@ const port = 3000;
 
 let config = {
   printerIp: '192.168.100.125',
-  wsUrl: 'ws://api.myanmarhoneyfood.com:6680',
+  // wsUrl: 'ws://api.myanmarhoneyfood.com:6680',
+  wsUrl: 'ws://x.x.x.x:PORT_NUMBER',
 };
 
 let wsClient = null;
